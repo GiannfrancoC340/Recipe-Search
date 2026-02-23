@@ -23,11 +23,18 @@ export class Search {
     if (!this.query.trim()) return;
     this.loading = true;
     this.noResults = false;
-
-    this.recipeService.searchMeals(this.query).subscribe(results => {
-      this.meals = results;
-      this.noResults = results.length === 0;
-      this.loading = false;
+    this.meals = [];
+  
+    this.recipeService.searchMeals(this.query).subscribe({
+      next: (results) => {
+        this.meals = results;
+        this.noResults = results.length === 0;
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error(err);
+        this.loading = false;
+      }
     });
   }
 

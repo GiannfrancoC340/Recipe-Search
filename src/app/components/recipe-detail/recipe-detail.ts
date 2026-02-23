@@ -24,10 +24,16 @@ export class RecipeDetail implements OnInit {
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-      this.recipeService.getMealById(id).subscribe(meal => {
-        this.meal = meal;
-        this.ingredients = this.getIngredients(meal);
-        this.loading = false;
+      this.recipeService.getMealById(id).subscribe({
+        next: (meal) => {
+          this.meal = meal;
+          this.ingredients = this.getIngredients(meal);
+          this.loading = false;
+        },
+        error: (err) => {
+          console.error(err);
+          this.loading = false;
+        }
       });
     }
   }
