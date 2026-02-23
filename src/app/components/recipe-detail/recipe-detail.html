@@ -1,1 +1,32 @@
-<p>recipe-detail works!</p>
+<div class="detail-container">
+    <button class="back-btn" (click)="goBack()">← Back to Search</button>
+  
+    <p *ngIf="loading">Loading recipe...</p>
+  
+    <div *ngIf="!loading && meal" class="meal-detail">
+      <div class="meal-header">
+        <img [src]="meal.strMealThumb" [alt]="meal.strMeal" />
+        <div class="meal-meta">
+          <h1>{{ meal.strMeal }}</h1>
+          <p class="category">{{ meal.strCategory }} • {{ meal.strArea }}</p>
+          <a *ngIf="meal.strYoutube" [href]="meal.strYoutube" target="_blank" class="youtube-btn">
+            ▶ Watch on YouTube
+          </a>
+        </div>
+      </div>
+  
+      <div class="meal-body">
+        <div class="ingredients">
+          <h2>Ingredients</h2>
+          <ul>
+            <li *ngFor="let ingredient of ingredients">{{ ingredient }}</li>
+          </ul>
+        </div>
+  
+        <div class="instructions">
+          <h2>Instructions</h2>
+          <p>{{ meal.strInstructions }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
