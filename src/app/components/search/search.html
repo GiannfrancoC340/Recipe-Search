@@ -1,1 +1,28 @@
-<p>search works!</p>
+<div class="search-container">
+    <div class="search-bar">
+      <input
+        [(ngModel)]="query"
+        (keyup.enter)="search()"
+        placeholder="Search for a recipe..."
+        type="text"
+      />
+      <button (click)="search()">Search</button>
+    </div>
+  
+    <p *ngIf="loading">Loading...</p>
+    <p *ngIf="noResults">No recipes found. Try a different search!</p>
+  
+    <div class="results-grid">
+      <div
+        class="meal-card"
+        *ngFor="let meal of meals"
+        (click)="goToDetail(meal.idMeal)"
+      >
+        <img [src]="meal.strMealThumb" [alt]="meal.strMeal" />
+        <div class="meal-info">
+          <h3>{{ meal.strMeal }}</h3>
+          <p>{{ meal.strCategory }} • {{ meal.strArea }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
