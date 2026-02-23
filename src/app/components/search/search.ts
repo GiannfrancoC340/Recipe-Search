@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -17,23 +17,29 @@ export class Search {
   loading: boolean = false;
   noResults: boolean = false;
 
-  constructor(private recipeService: RecipeService, private router: Router) {}
+  constructor(
+    private recipeService: RecipeService,
+    private router: Router,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   search() {
     if (!this.query.trim()) return;
     this.loading = true;
     this.noResults = false;
     this.meals = [];
-  
+
     this.recipeService.searchMeals(this.query).subscribe({
       next: (results) => {
         this.meals = results;
         this.noResults = results.length === 0;
         this.loading = false;
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error(err);
         this.loading = false;
+        this.cdr.detectChanges();
       }
     });
   }

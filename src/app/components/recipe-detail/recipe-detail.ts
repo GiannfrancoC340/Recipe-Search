@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RecipeService } from '../../services/recipe';
@@ -18,7 +18,8 @@ export class RecipeDetail implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private recipeService: RecipeService
+    private recipeService: RecipeService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -29,10 +30,12 @@ export class RecipeDetail implements OnInit {
           this.meal = meal;
           this.ingredients = this.getIngredients(meal);
           this.loading = false;
+          this.cdr.detectChanges();
         },
         error: (err) => {
           console.error(err);
           this.loading = false;
+          this.cdr.detectChanges();
         }
       });
     }
